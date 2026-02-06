@@ -33,6 +33,7 @@ interface MoreOptionsModalProps {
   };
   isLightTheme?: boolean;
   selectedIcon?: React.ComponentType<any>;
+  isSpanish?: boolean;
 }
 
 export const MoreOptionsModal = ({
@@ -41,6 +42,7 @@ export const MoreOptionsModal = ({
   earningsData,
   isLightTheme,
   selectedIcon,
+  isSpanish,
 }: MoreOptionsModalProps) => {
   const [aiGenerated, setAiGenerated] = useState(false);
   const [identifyProducts, setIdentifyProducts] = useState(true);
@@ -50,6 +52,56 @@ export const MoreOptionsModal = ({
   const [allowComments, setAllowComments] = useState(true);
   const [allowReuse, setAllowReuse] = useState(true);
   const [watchAndEarn, setWatchAndEarn] = useState(false);
+  
+  // Language translations
+  const translations = {
+    en: {
+      moreOptions: "More options",
+      everyoneCanView: "Everyone can view this post",
+      watchAndEarn: "Watch TikToks & Earn Money",
+      watchAndEarnDesc: "Enable this feature to get paid while watching videos",
+      earning: "Balance",
+      videos: "videos",
+      each: "each",
+      privacySettings: "Privacy settings",
+      allowComments: "Allow comments",
+      allowReuse: "Allow reuse of content",
+      duetStitchDesc: "Duet, Stitch, stickers, and add to Story",
+      advancedSettings: "Advanced settings",
+      contentDisclosure: "Content disclosure and ads",
+      addAlternativeText: "Add alternative text",
+      altTextDesc: "Provide a brief description of an image for viewers using screen reader technology.",
+      aiGenerated: "AI-generated content",
+      aiGeneratedDesc: "Add this label to tell viewers your content was generated or edited with AI.",
+      learnMore: "Learn more",
+      audienceControls: "Audience controls",
+      audienceDesc: "This video is limited to those aged 18 years and older."
+    },
+    es: {
+      moreOptions: "Más opciones",
+      everyoneCanView: "Todos pueden ver esta publicación",
+      watchAndEarn: "Ver TikToks y Gana Dinero",
+      watchAndEarnDesc: "Activa esta función para ganar dinero viendo videos",
+      earning: "Saldo",
+      videos: "videos",
+      each: "cada",
+      privacySettings: "Configuración de privacidad",
+      allowComments: "Permitir comentarios",
+      allowReuse: "Permitir reutilización de contenido",
+      duetStitchDesc: "Dúo, Stitch, stickers y agregar a Story",
+      advancedSettings: "Configuración avanzada",
+      contentDisclosure: "Divulgación de contenido y anuncios",
+      addAlternativeText: "Añadir texto alternativo",
+      altTextDesc: "Proporciona una breve descripción de una imagen para espectadores que usan tecnología de lector de pantalla.",
+      aiGenerated: "Contenido generado por IA",
+      aiGeneratedDesc: "Añade esta etiqueta para decir a los espectadores que tu contenido fue generado o editado con IA.",
+      learnMore: "Más información",
+      audienceControls: "Controles de audiencia",
+      audienceDesc: "Este video está limitado a mayores de 18 años."
+    }
+  };
+
+  const t = isSpanish ? translations.es : translations.en;
 
   if (!isOpen) return null;
 
@@ -58,7 +110,7 @@ export const MoreOptionsModal = ({
       <div className="bg-card w-full rounded-t-3xl max-h-[71vh] overflow-y-auto pb-8">
         <div className="sticky top-0 bg-card border-b border-border px-4 py-3 flex items-center justify-center">
           <h2 className="text-xl font-bold text-black dark:text-white">
-            More options
+            {t.moreOptions}
           </h2>
           <button onClick={onClose} className="p-1 absolute right-4">
             <X className="w-6 h-6" />
@@ -68,14 +120,14 @@ export const MoreOptionsModal = ({
         <div className="px-4 py-2 space-y-6">
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground mb-2">
-              Privacy settings
+              {t.privacySettings}
             </h3>
 
             <div className="space-y-4">
               <div className="flex items-center justify-between py-1">
                 <div className="flex items-center gap-3">
                   <MessageSquare className="w-5 h-5" />
-                  <span className="font-medium text-sm">Allow comments</span>
+                  <span className="font-medium text-sm">{t.allowComments}</span>
                 </div>
                 <Switch
                   checked={allowComments}
@@ -91,10 +143,10 @@ export const MoreOptionsModal = ({
                   />
                   <div>
                     <div className="font-medium text-sm">
-                      Allow reuse of content
+                      {t.allowReuse}
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Duet, Stitch, stickers, and add to Story
+                      {t.duetStitchDesc}
                     </p>
                   </div>
                 </div>
@@ -106,7 +158,7 @@ export const MoreOptionsModal = ({
           {/* Advanced Settings */}
           <div>
             <h3 className="text-xs font-semibold text-muted-foreground mb-1">
-              Advanced settings
+              {t.advancedSettings}
             </h3>
 
             <div className="space-y-4">
@@ -118,7 +170,7 @@ export const MoreOptionsModal = ({
                     className="w-9 h-9 -ml-2 dark:brightness-0 dark:invert"
                   />
                   <span className="font-medium text-sm">
-                    Content disclosure and ads
+                    {t.contentDisclosure}
                   </span>
                 </div>
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
@@ -130,11 +182,11 @@ export const MoreOptionsModal = ({
                   <div>
                     <div className="flex -ml-1 items-center gap-2">
                       <div className="font-medium text-sm">
-                        Watch TikToks & Earn
+                        {t.watchAndEarn}
                       </div>
                     </div>
                     <p className="text-xs -ml-1 text-muted-foreground mt-1">
-                      Enable this feature to get paid while watching videos
+                      {t.watchAndEarnDesc}
                     </p>
                     {watchAndEarn && (
                       <div className={`mt-2 p-3 rounded-xl shadow-lg border ${
@@ -151,7 +203,7 @@ export const MoreOptionsModal = ({
                             <div className="flex flex-col">
                               <span className={`text-xs font-bold uppercase tracking-wide ${
                                 isLightTheme ? 'text-gray-700' : 'text-pink-400'
-                              }`}>Earning</span>
+                              }`}>{t.earning}</span>
                               <span className={`text-lg font-black ${
                                 isLightTheme ? 'text-gray-900' : 'text-white'
                               }`}>${earningsData?.balance?.toLocaleString() || '1,802'}</span>
@@ -164,7 +216,7 @@ export const MoreOptionsModal = ({
                               }`}>{earningsData?.videosWatched?.toLocaleString() || '2,011'}</span>
                               <span className={`text-sm font-medium ${
                                 isLightTheme ? 'text-gray-600' : 'text-gray-400'
-                              }`}>videos</span>
+                              }`}>{t.videos}</span>
                             </div>
                             <div className="flex items-center gap-1">
                               <span className={`text-sm font-semibold ${
@@ -172,7 +224,7 @@ export const MoreOptionsModal = ({
                               }`}>${earningsData?.ratePerVideo || '0.89'}</span>
                               <span className={`text-sm font-medium ${
                                 isLightTheme ? 'text-gray-600' : 'text-gray-400'
-                              }`}>each</span>
+                              }`}>{t.each}</span>
                             </div>
                           </div>
                         </div>
@@ -210,11 +262,10 @@ export const MoreOptionsModal = ({
                   </svg>
                   <div>
                     <div className="font-medium text-sm">
-                      Add alternative text
+                      {t.addAlternativeText}
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Provide a brief description of an image for viewers using
-                      screen reader technology.
+                      {t.altTextDesc}
                     </p>
                   </div>
                 </div>
@@ -239,14 +290,12 @@ export const MoreOptionsModal = ({
                   </svg>
                   <div>
                     <div className="font-medium text-sm">
-                      AI-generated content
+                      {t.aiGenerated}
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Add this label to tell viewers your content was generated
-                      or edited with AI.{" "}
-                      {/* <span className="font-semibold">Learn more</span> */}
+                      {t.aiGeneratedDesc}{" "}
                       <span className=" cursor-pointer font-medium text-xs text-black dark:text-white whitespace-nowrap">
-                        Learn more
+                        {t.learnMore}
                       </span>
                     </p>
                   </div>
@@ -392,7 +441,7 @@ export const MoreOptionsModal = ({
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-sm">
-                        Audience controls
+                        {t.audienceControls}
                       </span>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -408,7 +457,7 @@ export const MoreOptionsModal = ({
                       </svg>
                     </div>
                     <p className="text-xs sm:text-xs text-muted-foreground">
-                      This video is limited to those aged 18 years and older.
+                      {t.audienceDesc}
                     </p>
                   </div>
                 </div>

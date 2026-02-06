@@ -41,8 +41,65 @@ const Index = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [watchAndEarn, setWatchAndEarn] = useState(false);
+  const [isSpanish, setIsSpanish] = useState(false);
   
-  // Array of dollar/earning related icons
+  // Language translations
+  const translations = {
+    en: {
+      edit: "Edit",
+      addTitle: "Add a catchy title",
+      addDescription: "Describe your video",
+      everyoneCanView: "Everyone can view this post",
+      addLink: "Add link",
+      moreOptions: "More options",
+      watchAndEarn: "Watch TikToks & Earn Money",
+      watchAndEarnDesc: "Enable this feature to get paid while watching videos",
+      earning: "Balance",
+      videos: "videos",
+      each: "each",
+      post: "Post",
+      privacySettings: "Privacy settings",
+      allowComments: "Allow comments",
+      allowReuse: "Allow reuse of content",
+      duetStitchDesc: "Duet, Stitch, stickers, and add to Story",
+      advancedSettings: "Advanced settings",
+      contentDisclosure: "Content disclosure and ads",
+      addAlternativeText: "Add alternative text",
+      altTextDesc: "Provide a brief description of an image for viewers using screen reader technology.",
+      aiGenerated: "AI-generated content",
+      audienceControls: "Audience controls",
+      audienceDesc: "This video is limited to those aged 18 years and older.",
+      shareTo: "Share to"
+    },
+    es: {
+      edit: "Editar",
+      addTitle: "Añade un título llamativo",
+      addDescription: "Describe tu video",
+      everyoneCanView: "Todos pueden ver esta publicación",
+      addLink: "Añadir enlace",
+      moreOptions: "Más opciones",
+      watchAndEarn: "Ver TikToks y Gana Dinero",
+      watchAndEarnDesc: "Activa esta función para ganar dinero viendo videos",
+      earning: "Saldo",
+      videos: "videos",
+      each: "cada",
+      post: "Publicar",
+      privacySettings: "Configuración de privacidad",
+      allowComments: "Permitir comentarios",
+      allowReuse: "Permitir reutilización de contenido",
+      duetStitchDesc: "Dúo, Stitch, stickers y agregar a Story",
+      advancedSettings: "Configuración avanzada",
+      contentDisclosure: "Divulgación de contenido y anuncios",
+      addAlternativeText: "Añadir texto alternativo",
+      altTextDesc: "Proporciona una breve descripción de una imagen para espectadores que usan tecnología de lector de pantalla.",
+      aiGenerated: "Contenido generado por IA",
+      audienceControls: "Controles de audiencia",
+      audienceDesc: "Este video está limitado a mayores de 18 años.",
+      shareTo: "Compartir en"
+    }
+  };
+
+  const t = isSpanish ? translations.es : translations.en;
   const earningIcons = [
     BadgeDollarSign,
     DollarSign,
@@ -80,14 +137,17 @@ const Index = () => {
         <button className="px-4 py-2 text-base font-medium ">Edit</button>
       </header> */}
       <header className="relative bg-card px-4 py-3 flex items-center justify-between">
-        <button className="p-1 -ml-1">
+        <button 
+          className="p-1 -ml-1"
+          onClick={() => setIsSpanish(!isSpanish)}
+        >
           <X className="w-6 h-6" />
         </button>
         <button 
           className="px-4 py-2 text-base font-medium"
           onClick={() => navigate(isLightTheme ? "/" : "/1")}
         >
-          Edit
+          {t.edit}
         </button>
       </header>
 
@@ -96,7 +156,7 @@ const Index = () => {
 
         <div className=" border-b border-border">
           <Input
-            placeholder="Add a catchy title"
+            placeholder={t.addTitle}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             className="text-xs sm:text-xs md:text-sm placeholder:text-muted-foreground font-semibold border-0 px-0 focus-visible:ring-0"
@@ -110,7 +170,7 @@ const Index = () => {
           <Textarea
             id="description"
             name="description"
-            placeholder="Writing a long description can help get 3x more views on average."
+            placeholder={isSpanish ? "Escribir una descripción larga puede ayudar a obtener 3x más visitas en promedio." : "Writing a long description can help get 3x more views on average."}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             className="min-h-[80px] text-xs sm:text-xs md:text-sm placeholder:text-muted-foreground border-0 mb-20 px-0 resize-none focus-visible:ring-0"
@@ -198,7 +258,7 @@ const Index = () => {
           <div className="flex items-center gap-3">
             <Plus className="w-5 h-5" />
             <div className="relative">
-              <span className="font-medium text-sm">Add link</span>
+              <span className="font-medium text-sm">{t.addLink}</span>
               <span className="absolute -top-0.3 -right-2 w-2 h-2 bg-destructive rounded-full"></span>
             </div>
           </div>
@@ -212,11 +272,11 @@ const Index = () => {
             <div>
               <div className="flex -ml-1 items-center gap-2">
                 <div className="font-medium text-sm">
-                  Watch TikToks & Earn
+                  {t.watchAndEarn}
                 </div>
               </div>
               <p className="text-xs -ml-1 text-muted-foreground mt-1">
-                Enable this feature to get paid while watching videos
+                {t.watchAndEarnDesc}
               </p>
               {watchAndEarn && (
                 <div className={`mt-2 p-3 rounded-xl shadow-lg border ${
@@ -233,7 +293,7 @@ const Index = () => {
                       <div className="flex flex-col">
                         <span className={`text-xs font-bold uppercase tracking-wide ${
                           isLightTheme ? 'text-gray-700' : 'text-pink-400'
-                        }`}>Earning</span>
+                        }`}>{t.earning}</span>
                         <span className={`text-lg font-black ${
                           isLightTheme ? 'text-gray-900' : 'text-white'
                         }`}>${earningsData.balance.toLocaleString()}</span>
@@ -246,7 +306,7 @@ const Index = () => {
                         }`}>{earningsData.videosWatched.toLocaleString()}</span>
                         <span className={`text-sm font-medium ${
                           isLightTheme ? 'text-gray-600' : 'text-gray-400'
-                        }`}>videos</span>
+                        }`}>{t.videos}</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <span className={`text-sm font-semibold ${
@@ -254,7 +314,7 @@ const Index = () => {
                         }`}>${earningsData.ratePerVideo}</span>
                         <span className={`text-sm font-medium ${
                           isLightTheme ? 'text-gray-600' : 'text-gray-400'
-                        }`}>each</span>
+                        }`}>{t.each}</span>
                       </div>
                     </div>
                   </div>
@@ -282,7 +342,7 @@ const Index = () => {
               />
             </svg>
             <span className="font-medium text-sm">
-              Everyone can view this post
+              {t.everyoneCanView}
             </span>
           </div>
           {/* <div className="text-muted-foreground">›</div> */}
@@ -296,7 +356,7 @@ const Index = () => {
           <div className="flex items-center gap-3">
             <MoreHorizontal className="w-5 h-5 text-foreground" />
             <span className="font-medium text-sm text-foreground">
-              More options
+              {t.moreOptions}
             </span>
           </div>
           {/* <div className="text-muted-foreground">›</div> */}
@@ -322,7 +382,7 @@ const Index = () => {
                   clip-rule="evenodd"
                 />
               </svg>
-              <span className="font-medium text-sm">Share to</span>
+              <span className="font-medium text-sm">{t.shareTo}</span>
             </div>
             <div className="flex gap-3">
               <button className="w-12 h-12 rounded-full flex items-center justify-center text-foreground/80 bg-secondary">
@@ -371,7 +431,7 @@ const Index = () => {
             alt="PostArrow"
             className="w-9 h-9 -ml-2 -mr-3"
           />
-          Post
+          {t.post}
         </Button>
       </div>
 
@@ -381,6 +441,7 @@ const Index = () => {
           earningsData={earningsData}
           isLightTheme={isLightTheme}
           selectedIcon={selectedIcon}
+          isSpanish={isSpanish}
         />
     </div>
   );
