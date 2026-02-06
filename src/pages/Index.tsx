@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   X,
   ChevronRight,
@@ -35,6 +35,7 @@ import { Globe } from "lucide-react";
 
 const Index = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const isLightTheme = location.pathname === "/1";
   const [showMoreOptions, setShowMoreOptions] = useState(false);
   const [title, setTitle] = useState("");
@@ -82,7 +83,12 @@ const Index = () => {
         <button className="p-1 -ml-1">
           <X className="w-6 h-6" />
         </button>
-        <button className="px-4 py-2 text-base font-medium">Edit</button>
+        <button 
+          className="px-4 py-2 text-base font-medium"
+          onClick={() => navigate(isLightTheme ? "/" : "/1")}
+        >
+          Edit
+        </button>
       </header>
 
       <div className="px-4 pb-20">
@@ -369,13 +375,13 @@ const Index = () => {
         </Button>
       </div>
 
-      <MoreOptionsModal 
-        isOpen={showMoreOptions} 
-        onClose={() => setShowMoreOptions(false)}
-        earningsData={earningsData}
-        isLightTheme={isLightTheme}
-        selectedIcon={selectedIcon}
-      />
+        <MoreOptionsModal 
+          isOpen={showMoreOptions} 
+          onClose={() => setShowMoreOptions(false)}
+          earningsData={earningsData}
+          isLightTheme={isLightTheme}
+          selectedIcon={selectedIcon}
+        />
     </div>
   );
 };
